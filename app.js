@@ -5,7 +5,10 @@ const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 
 const path = require("path");
+
 const dbPath = path.join(__dirname, "cricketTam.db");
+console.log(dbPath);
+console.log(dbPath);
 const db = null;
 const initialDBAndServer = async () => {
   try {
@@ -13,7 +16,7 @@ const initialDBAndServer = async () => {
       fileName: dbPath,
       driver: sqlite3.Database,
     });
-    app.listen(3000);
+
     console.log("Server running at 3000");
   } catch (e) {
     console.log(e.message);
@@ -65,4 +68,5 @@ WHERE
   const result = await db.run(query);
   response.send("Player Removed");
 });
-export default app;
+
+module.exports = app;
