@@ -56,7 +56,7 @@ app.post("/players/", async (request, response) => {
 
   const { playerName, jerseyNumber, role } = request.body;
   let query = `INSERT INTO cricket_team(player_name,jersey_number,role)
-        VALUES (${playerName},${jerseyNumber},${role})`;
+        VALUES (`${playerName}`,${jerseyNumber},`${role}`)`;
 
   let dbResponse = await db.run(query);
   const lastId = dbResponse.lastID;
