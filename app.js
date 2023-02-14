@@ -1,3 +1,4 @@
+
 const express = require("express");
 const app = express();
 const { open } = require("sqlite");
@@ -9,7 +10,7 @@ let db = null;
 
 const initializeDBAndServer = async () => {
   try {
-    let db = await open({
+    db = await open({
       filename: bdPath,
       driver: sqlite3.Database,
     });
@@ -19,15 +20,37 @@ const initializeDBAndServer = async () => {
   }
 };
 initializeDBAndServer();
+
+function convertedObj(array) {
+  let convertedObj = array.map((dbObject) => {
+    return {
+      playerId: dbObject.player_id,
+      playerName: dbObject.player_name,
+      jerseyNumber: dbObject.jersey_number,
+      role: dbObject.role,
+    };
+  });
+  return convertedObj;
+}
+
 //API1
 
 app.get("/players/", async (request, response) => {
   try {
     let sqlQuery = `SELECT * FROM cricket_team`;
+
     let resultArray = await db.all(sqlQuery);
-    console.log(resultArray);
+    let camelCaseOnj = convertedObj(resultArray);
+    //console.log(camelCaseOnj);
+    response.send(camelCaseOnj);
   } catch (e) {
-    console.log(e.message);
+    response.send(e.message);
   }
+});
+
+//API 2
+
+app.post("/players/", (request, response) => {
+  console.log("API2");
 });
 module.exports = app;
