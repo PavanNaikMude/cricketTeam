@@ -1,2 +1,5 @@
-Send Request 
-GET http://localhost:3000/movies/
+
+
+GET http://localhost:3000/players/
+
+POST https://localhost:3000/players/
