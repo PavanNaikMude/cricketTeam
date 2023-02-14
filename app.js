@@ -1,10 +1,11 @@
-
 const express = require("express");
 const app = express();
+app.use(express.json());
 const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 const path = require("path");
 const bdPath = path.join(__dirname, "cricketTeam.db");
+
 //console.log(bdPath);
 let db = null;
 
@@ -50,7 +51,16 @@ app.get("/players/", async (request, response) => {
 
 //API 2
 
-app.post("/players/", (request, response) => {
-  console.log("API2");
+app.post("/players/", async (request, response) => {
+  //console.log(request.body);
+
+  const { playerName, jerseyNumber, role } = request.body;
+  let query = `INSERT INTO cricket_team(player_name,jersey_number,role)
+        VALUES (${playerName},${jerseyNumber},${role})`;
+
+  let dbResponse = await db.run(query);
+  const lastId = dbResponse.lastID;
+  console.log("Added to Team");
 });
 module.exports = app;
+
